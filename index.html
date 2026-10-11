@@ -188,27 +188,49 @@
 
     @media(max-width:767px) {
       .hero {
-        justify-content: center;
+        height: clamp(500px, 130vw, 620px);
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: clamp(1.5rem, 5vw, 2.25rem) clamp(1rem, 4vw, 1.75rem) 0;
         text-align: center
       }
 
       .copy {
+        position: relative;
+        z-index: 3;
         text-align: center;
         max-width: 100%;
-        text-shadow: 0 2px 16px var(--shade)
-      }
-
-      h1 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
         align-items: center
       }
 
-      .sub,
-      .rule {
-        margin-inline: auto
+      h1 {
+        align-items: center;
+        font-size: clamp(1.75rem, 7vw, 2.45rem);
+        line-height: 1.06
+      }
+
+      h1 .line {
+        white-space: nowrap
       }
 
       .rule {
+        width: clamp(100px, 24vw, 160px);
+        margin: clamp(.65rem, 1.8vw, .95rem) auto 0;
         transform-origin: center
+      }
+
+      .sub {
+        margin: clamp(.65rem, 1.8vw, .95rem) auto 0;
+        max-width: 32ch;
+        font-size: clamp(.84rem, 2.7vw, .98rem);
+        line-height: 1.5;
+        text-align: center
       }
     }
 
@@ -349,6 +371,13 @@
         this.cv.width = this.W * dpr; this.cv.height = this.H * dpr;
         this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         this.setPal(); this.buildBg();
+        if (this.W < 768) {
+          const hr = this.hero.getBoundingClientRect();
+          const cr = (this.copyEl || (this.copyEl = document.getElementById('copy'))).getBoundingClientRect();
+          this.copyBottom = Math.max(130, cr.bottom - hr.top);
+        } else {
+          this.copyBottom = 0;
+        }
         /* particle field + stars */
         const n = this.W < 768 ? 16 : this.W < 1200 ? 26 : 36;
         this.pts = Array.from({ length: n }, () => {
@@ -460,15 +489,25 @@
       }
       scene(t, nx, ny) {
         const c = this.ctx, W = this.W, H = this.H, mobile = W < 768, TOP = 52;
-        const S = Math.min(H * (mobile ? 0.9 : 0.94) / 420, (mobile ? W * 0.95 : W * 0.5) / 430);
-        const ox = (mobile ? (W - 430 * S) / 2 : W - 430 * S - Math.max(8, W * 0.03)) + nx * 14;
-        const oy = (H - 420 * S) / 2 + ny * 8;
-        const base = this.base = mobile ? 0.4 : 1;
+        const copyB = mobile ? (this.copyBottom || 160) : 0;
+        const availH = mobile ? Math.max(220, H - copyB) : H;
+        const S = mobile
+          ? Math.min((availH * 0.92) / 420, (W * 0.90) / 430)
+          : Math.min(H * 0.94 / 420, W * 0.5 / 430);
+        const ox = (mobile ? (W - 430 * S) / 2 : W - 430 * S - Math.max(8, W * 0.03)) + nx * (mobile ? 6 : 14);
+        const oy = (mobile ? copyB + (availH - 420 * S) / 2 : (H - 420 * S) / 2) + ny * (mobile ? 4 : 8);
+        const base = this.base = 1;
         const off = reduced ? 0 : -t * 14, OUT = this.pal.out, TWO = Math.PI * 2, A = 185;
 
         if (!this.P) {
           const mk = (t0, t1) => { const p = new Path2D(); for (let u = t0; u <= t1 + 1e-6; u += 0.02) { const q = this.lemni(u, A); u === t0 ? p.moveTo(q[0], q[1]) : p.lineTo(q[0], q[1]); } return p; };
-          const tail = new Path2D(); tail.moveTo(201, 275); tail.bezierCurveTo(218, 330, 262, 355, 312, 377); tail.bezierCurveTo(350, 395, 385, 407, 450, 417);
+          const tail = new Path2D();
+          tail.moveTo(201, 275);
+          tail.bezierCurveTo(218, 330, 262, 355, 312, 377);
+          tail.bezierCurveTo(350, 395, 385, 407, 450, 417);
+          tail.bezierCurveTo(580, 437, 730, 458, 900, 482);
+          tail.bezierCurveTo(1070, 506, 1260, 532, 1500, 565);
+          tail.bezierCurveTo(1740, 598, 1980, 630, 2300, 675);
           this.P = { full: mk(0, TWO), a: mk(0, Math.PI), b: mk(Math.PI, TWO), x: mk(1.5 * Math.PI - 0.55, 1.5 * Math.PI + 0.55), tail };
         }
         const P = this.P;
