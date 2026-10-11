@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Business Resilience | Stay standing when things shift</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf6f0;
+      --ink: #1c1b22;
+      --muted: #55535f;
+      --bar: #6b21a8;
+      --bar-ink: #fff;
+      --accent: #ff8a2a;
+      --g1: rgba(123, 44, 191, .14);
+      --g2: rgba(244, 122, 32, .20);
+      --shade: rgba(250, 246, 240, .92);
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    @media(prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #160a28;
+        --ink: #fff;
+        --muted: rgba(255, 255, 255, .78);
+        --bar: #4a1480;
+        --g1: rgba(123, 44, 191, .40);
+        --g2: rgba(244, 122, 32, .20);
+        --shade: rgba(22, 10, 40, .88)
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #160a28;
+      --ink: #fff;
+      --muted: rgba(255, 255, 255, .78);
+      --bar: #4a1480;
+      --g1: rgba(123, 44, 191, .40);
+      --g2: rgba(244, 122, 32, .20);
+      --shade: rgba(22, 10, 40, .88)
+    }
+
+    html {
+      scroll-padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Montserrat, system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased
+    }
+
+    .hero {
+      position: relative;
+      height: clamp(340px, 46vw, 580px);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 6vw, 6rem);
+      background:
+        radial-gradient(55% 80% at 88% 25%, var(--g1), transparent 65%),
+        radial-gradient(45% 70% at 6% 105%, var(--g2), transparent 65%),
+        var(--bg);
+      overflow: hidden
+    }
+
+    #cv {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none
+    }
+
+    .copy {
+      position: relative;
+      z-index: 3;
+      text-align: left;
+      max-width: 54%
+    }
+
+    h1 {
+      display: flex;
+      flex-direction: column;
+      font-size: clamp(2.2rem, 6.2vw, 5.4rem);
+      line-height: 1.04;
+      letter-spacing: -.01em;
+      text-transform: uppercase
+    }
+
+    h1 .line {
+      display: block;
+      overflow: hidden;
+      padding-bottom: .1em;
+      margin-bottom: -.1em
+    }
+
+    h1 .line>span {
+      display: inline-block;
+      transform: translateY(110%);
+      animation: rise .95s cubic-bezier(.2, .8, .2, 1) forwards
+    }
+
+    h1 .line:nth-child(2)>span {
+      animation-delay: .14s
+    }
+
+    h1 .solid {
+      font-weight: 800
+    }
+
+    h1 .grad {
+      font-weight: 800;
+      background: linear-gradient(95deg, #c2410c 0%, #f47a20 52%, #8b2fc9 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .sub {
+      margin-top: clamp(.9rem, 2vw, 1.5rem);
+      max-width: 29em;
+      font-size: clamp(.82rem, 1.45vw, 1.08rem);
+      font-weight: 500;
+      line-height: 1.6;
+      color: var(--muted)
+    }
+
+    .sub {
+      opacity: 0;
+      animation: fadeUp .8s cubic-bezier(.2, .8, .2, 1) forwards
+    }
+
+    .sub {
+      animation-delay: .4s
+    }
+
+    .rule {
+      display: block;
+      width: clamp(120px, 22vw, 300px);
+      height: 4px;
+      border-radius: 2px;
+      margin-top: clamp(.8rem, 1.6vw, 1.2rem);
+      background: linear-gradient(90deg, #f47a20, #ffb066);
+      transform-origin: left;
+      transform: scaleX(0);
+      animation: grow .9s .3s cubic-bezier(.2, .8, .2, 1) forwards
+    }
+
+    @keyframes grow {
+      to {
+        transform: none
+      }
+    }
+
+    @keyframes rise {
+      to {
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @media(max-width:767px) {
+      .hero {
+        justify-content: center;
+        text-align: center
+      }
+
+      .copy {
+        text-align: center;
+        max-width: 100%;
+        text-shadow: 0 2px 16px var(--shade)
+      }
+
+      h1 {
+        align-items: center
+      }
+
+      .sub,
+      .rule {
+        margin-inline: auto
+      }
+
+      .rule {
+        transform-origin: center
+      }
+    }
+
+    .ticker-track-container {
+      position: relative;
+      z-index: 4;
+      width: 100%;
+      height: 64px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      background: var(--bar);
+      color: var(--bar-ink);
+      font-weight: 600;
+      font-size: clamp(.9rem, 1.4vw, 1.05rem);
+      letter-spacing: .04em
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      align-items: center;
+      white-space: nowrap;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      animation: tickerSlide var(--dur, 60s) linear infinite
+    }
+
+    .ticker-track-container:hover .ticker-track,
+    .ticker-track-container:focus-within .ticker-track {
+      animation-play-state: paused
+    }
+
+    @keyframes tickerSlide {
+      from {
+        transform: translate3d(0, 0, 0)
+      }
+
+      to {
+        transform: translate3d(calc(-1 * var(--dist, 1000px)), 0, 0)
+      }
+    }
+
+    .ticker-group {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      gap: 1.6rem;
+      padding-right: 1.6rem
+    }
+
+    .ticker-group a,
+    .ticker-group svg {
+      flex-shrink: 0
+    }
+
+    .ticker-group a {
+      color: inherit;
+      text-decoration: none;
+      padding: .1rem .15rem;
+      border-bottom: 2px solid transparent;
+      transition: border-color .2s
+    }
+
+    .ticker-group a:hover {
+      border-color: var(--accent)
+    }
+
+    .ticker-group a:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+      border-radius: 2px
+    }
+
+    .ticker-group svg {
+      width: 1.2em;
+      height: 1.2em;
+      color: var(--accent)
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      h1 .line>span {
+        transform: none;
+        animation: none
+      }
+
+      .sub {
+        opacity: 1;
+        animation: none
+      }
+
+      .rule {
+        transform: none;
+        animation: none
+      }
+
+      .ticker-track {
+        animation: none !important
+      }
+
+      .ticker-track-container {
+        overflow-x: auto
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="hero" id="hero">
+    <canvas id="cv" aria-hidden="true"></canvas>
+    <div class="copy" id="copy">
+      <h1 id="title"><span class="line"><span class="solid">Business</span></span><span class="line"><span class="grad">Resilience</span></span></h1>
+      <span class="rule"></span>
+      <p class="sub">Keep operations moving through disruption, and recover faster when it counts.</p>
+    </div>
+  </section>
+  <div class="ticker-track-container" id="identity" aria-label="What business resilience covers">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
+
+  <script>
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* One canvas, one loop: particle field, cursor glow, orbit ring, road, rocket, smoke.
+       Pointer events only record coordinates; all easing happens inside the frame loop. */
+    class ResCanvas {
+      constructor(cv, hero) {
+        Object.assign(this, {
+          cv, hero, ctx: cv.getContext('2d'), raf: null, running: false, visible: true, t0: performance.now(), lastNow: 0, W: 0, H: 0,
+          hist: [], nextEmit: 0, base: 1, bg: null, pts: [], stars: [], ptr: { cx: 0, cy: 0, on: false }, sm: { x: 0, y: 0, i: 0 }
+        });
+        this.frame = this.frame.bind(this);
+      }
+      resize() {
+        const dpr = Math.min(devicePixelRatio || 1, 1.5);
+        this.W = this.hero.clientWidth; this.H = this.hero.clientHeight;
+        this.cv.width = this.W * dpr; this.cv.height = this.H * dpr;
+        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        this.setPal(); this.buildBg();
+        /* particle field + stars */
+        const n = this.W < 768 ? 16 : this.W < 1200 ? 26 : 36;
+        this.pts = Array.from({ length: n }, () => {
+          const a = Math.random() * 6.2832, v = 10 + Math.random() * 18;
+          return { x: Math.random() * this.W, y: Math.random() * this.H, bx: Math.cos(a) * v, by: Math.sin(a) * v, vx: 0, vy: 0, r: 1.2 + Math.random() * 1.8 };
+        });
+        this.pts.forEach(p => { p.vx = p.bx; p.vy = p.by; });
+        this.stars = Array.from({ length: 34 }, () => ({ x: Math.random() * this.W, y: Math.random() * this.H, r: 1 + Math.random() * 1.4, ph: Math.random() * 6.28 }));
+        if (reduced) this.draw(this.t0 + 5000);
+      }
+      isDark() { const r = document.documentElement.dataset.theme; return r === 'dark' || (r !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches); }
+      setPal() {
+        this.dark = this.isDark();
+        this.pal = this.dark
+          ? { ring: 'rgba(255,255,255,.18)', out: 'rgba(8,3,20,.6)', dotRgb: '255,255,255', star: '#fff', link: '#fff', linkA: 0.28, pdot: '#ffe6d0', pdotA: 0.55, halo: 0.5 }
+          : { ring: 'rgba(194,65,12,.30)', out: 'rgba(42,15,77,.38)', dotRgb: '244,122,32', star: '#f47a20', link: '#f47a20', linkA: 0.34, pdot: '#e8690f', pdotA: 0.75, halo: 0.3 };
+      }
+      buildBg() {
+        const dpr = Math.min(devicePixelRatio || 1, 1.5);
+        const bg = document.createElement('canvas'); bg.width = this.cv.width; bg.height = this.cv.height;
+        const real = this.ctx; this.ctx = bg.getContext('2d'); this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const s = Math.min(this.W, 1200) / 1200 + 0.25;
+        this.dotArcs(this.W * 0.93, -this.H * 0.04, 40 * s, 300 * s, 14, 0.8, 0.5);
+        this.dotArcs(this.W * 0.16, this.H * 1.02, 40 * s, 300 * s, 14, 0.55, 0.15);
+        this.ctx = real; this.bg = bg;
+      }
+      dotArcs(cx, cy, r0, r1, step, squash, rot) {
+        const c = this.ctx;
+        c.save(); c.translate(cx, cy); c.rotate(rot); c.scale(1, squash);
+        for (let r = r0; r < r1; r += step) {
+          const n = Math.floor(2 * Math.PI * r / 5), a = 0.5 * (1 - (r - r0) / (r1 - r0)) + 0.08;
+          c.fillStyle = `rgba(${this.pal.dotRgb},${a})`;
+          for (let i = 0; i < n; i++) { const th = i / n * 6.2832; c.fillRect(Math.cos(th) * r, Math.sin(th) * r, 1.3, 1.3); }
+        }
+        c.restore();
+      }
+      glow(key, rgb) {
+        this.gs = this.gs || {};
+        if (!this.gs[key]) {
+          const n = 64, cv = document.createElement('canvas'); cv.width = cv.height = n;
+          const x = cv.getContext('2d'), g = x.createRadialGradient(n / 2, n / 2, 0, n / 2, n / 2, n / 2), k = rgb.join(',');
+          g.addColorStop(0, `rgba(${k},1)`); g.addColorStop(.35, `rgba(${k},.35)`); g.addColorStop(1, `rgba(${k},0)`);
+          x.fillStyle = g; x.fillRect(0, 0, n, n); this.gs[key] = cv;
+        }
+        return this.gs[key];
+      }
+      lemni(t, a) { const s = Math.sin(t), d = 1 + s * s; return [a * Math.cos(t) / d, a * s * Math.cos(t) / d]; }
+      roadPath(a, t0, t1) {
+        const c = this.ctx; c.beginPath();
+        for (let t = t0; t <= t1 + 1e-6; t += 0.02) { const p = this.lemni(t, a); t === t0 ? c.moveTo(p[0], p[1]) : c.lineTo(p[0], p[1]); }
+      }
+      rgba(f, a, b, al) { return 'rgba(' + a.map((v, i) => Math.round(v + (b[i] - v) * f)).join(',') + ',' + al + ')'; }
+      sprite(f) {
+        const k = Math.max(0, Math.min(15, Math.round(f * 15)));
+        this.sp = this.sp || [];
+        if (!this.sp[k]) {
+          const OR = [255, 122, 47], TE = [123, 44, 191], n = 96, cv = document.createElement('canvas'); cv.width = cv.height = n;
+          const x = cv.getContext('2d'), g = x.createRadialGradient(n / 2, n / 2, 0, n / 2, n / 2, n / 2);
+          g.addColorStop(0, this.rgba(k / 15, OR, TE, 1)); g.addColorStop(.55, this.rgba(k / 15, OR, TE, .6)); g.addColorStop(1, this.rgba(k / 15, OR, TE, 0));
+          x.fillStyle = g; x.fillRect(0, 0, n, n); this.sp[k] = cv;
+        }
+        return this.sp[k];
+      }
+      puff(x, y, r, f, al) { this.ctx.globalAlpha = this.base * al; this.ctx.drawImage(this.sprite(f), x - r, y - r, r * 2, r * 2); }
+      toScene(l) { const r = -0.1, cr = Math.cos(r), sr = Math.sin(r); return [205 + l[0] * cr - l[1] * sr, 250 + l[0] * sr + l[1] * cr]; }
+      pathPose(th) {
+        const a = this.toScene(this.lemni(th, 185)), b = this.toScene(this.lemni(th + 0.01, 185));
+        return { x: a[0], y: a[1], psi: Math.atan2(b[1] - a[1], b[0] - a[0]) + Math.PI / 2 };
+      }
+      /* Cycle: fade in at right end, glide to the left end, glide to the crossing, launch straight up, hover, fade out */
+      pose(t) {
+        const TOP = 52, E = x => -(Math.cos(Math.PI * x) - 1) / 2, SS = x => x * x * (3 - 2 * x);
+        const A = 0.5, B = 3.4, C = 0.35, D = 1.5, L = 1.7, F = 1.6, G = 0.5, TOTAL = A + B + C + D + L + F + G;
+        let tau = t % TOTAL, p;
+        if (tau < A) { p = { ...this.pathPose(0), fl: 0.25, alpha: tau / A, emit: 0 }; return p; }
+        tau -= A;
+        if (tau < B) { const x = tau / B; return { ...this.pathPose(Math.PI * E(x)), fl: 0.45 + Math.sin(Math.PI * x) * 0.9, alpha: 1, emit: 1 }; }
+        tau -= B;
+        if (tau < C) return { ...this.pathPose(Math.PI), fl: 0.25, alpha: 1, emit: 0 };
+        tau -= C;
+        if (tau < D) { const x = tau / D; return { ...this.pathPose(Math.PI + 0.5 * Math.PI * E(x)), fl: 0.5 + Math.sin(Math.PI * x) * 0.5, alpha: 1, emit: 1 }; }
+        tau -= D;
+        if (tau < L) {
+          const x = tau / L, b = this.pathPose(1.5 * Math.PI), e = SS(x);
+          let psi0 = ((b.psi + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
+          return { x: b.x, y: b.y + (TOP - b.y) * e, psi: psi0 * (1 - SS(Math.min(1, x / 0.4))), fl: 1.1, alpha: 1, emit: 2 };
+        }
+        tau -= L;
+        if (tau < F) return { x: 205, y: TOP + Math.sin(t * 2.2) * 1.5, psi: 0, fl: 0.7, alpha: 1, emit: 3 };
+        tau -= F;
+        return { x: 205, y: TOP, psi: 0, fl: 0.5, alpha: 1 - tau / G, emit: 0 };
+      }
+      rocket(fl) {
+        const c = this.ctx, L = 84 + 34 + 46 * fl + (reduced ? 0 : Math.sin(performance.now() / 45) * 3);
+        const fg = c.createLinearGradient(0, 84, 0, L);
+        fg.addColorStop(0, '#ffe27a'); fg.addColorStop(.5, '#ff9a3c'); fg.addColorStop(1, 'rgba(255,122,47,0)');
+        c.fillStyle = fg; c.beginPath(); c.moveTo(-9, 84); c.quadraticCurveTo(0, L + 14, 9, 84); c.closePath(); c.fill();
+        c.fillStyle = '#ea580c';
+        c.beginPath(); c.moveTo(-18, 58); c.lineTo(-34, 92); c.lineTo(-18, 82); c.closePath(); c.fill();
+        c.beginPath(); c.moveTo(18, 58); c.lineTo(34, 92); c.lineTo(18, 82); c.closePath(); c.fill();
+        const bg = c.createLinearGradient(-20, 0, 20, 0);
+        bg.addColorStop(0, '#9fb0c4'); bg.addColorStop(.45, '#f1f5fa'); bg.addColorStop(1, '#8a9cb2');
+        c.fillStyle = bg; c.beginPath();
+        c.moveTo(0, -4); c.bezierCurveTo(17, 18, 21, 50, 19, 84); c.lineTo(-19, 84); c.bezierCurveTo(-21, 50, -17, 18, 0, -4); c.closePath(); c.fill(); c.strokeStyle = 'rgba(60,40,90,.4)'; c.lineWidth = 1.6; c.stroke();
+        c.fillStyle = '#ea580c'; c.beginPath(); c.moveTo(0, -4); c.bezierCurveTo(7, 4, 11, 12, 12, 20); c.lineTo(-12, 20); c.bezierCurveTo(-11, 12, -7, 4, 0, -4); c.closePath(); c.fill();
+        c.fillStyle = '#6b21a8'; c.strokeStyle = '#5b6b7e'; c.lineWidth = 3;
+        c.beginPath(); c.arc(0, 38, 8, 0, 6.2832); c.fill(); c.stroke();
+        c.fillStyle = '#44546a'; c.fillRect(-9, 84, 18, 6);
+      }
+      scene(t, nx, ny) {
+        const c = this.ctx, W = this.W, H = this.H, mobile = W < 768, TOP = 52;
+        const S = Math.min(H * (mobile ? 0.9 : 0.94) / 420, (mobile ? W * 0.95 : W * 0.5) / 430);
+        const ox = (mobile ? (W - 430 * S) / 2 : W - 430 * S - Math.max(8, W * 0.03)) + nx * 14;
+        const oy = (H - 420 * S) / 2 + ny * 8;
+        const base = this.base = mobile ? 0.4 : 1;
+        const off = reduced ? 0 : -t * 14, OUT = this.pal.out, TWO = Math.PI * 2, A = 185;
+
+        if (!this.P) {
+          const mk = (t0, t1) => { const p = new Path2D(); for (let u = t0; u <= t1 + 1e-6; u += 0.02) { const q = this.lemni(u, A); u === t0 ? p.moveTo(q[0], q[1]) : p.lineTo(q[0], q[1]); } return p; };
+          const tail = new Path2D(); tail.moveTo(201, 275); tail.bezierCurveTo(218, 330, 262, 355, 312, 377); tail.bezierCurveTo(350, 395, 385, 407, 450, 417);
+          this.P = { full: mk(0, TWO), a: mk(0, Math.PI), b: mk(Math.PI, TWO), x: mk(1.5 * Math.PI - 0.55, 1.5 * Math.PI + 0.55), tail };
+        }
+        const P = this.P;
+
+        c.save();
+        c.globalAlpha = base;
+        c.translate(ox, oy); c.scale(S, S);
+        c.lineCap = 'round'; c.lineJoin = 'round';
+
+        /* orbit ring with a travelling satellite */
+        c.save(); c.translate(205, 250); c.rotate(-0.35);
+        c.strokeStyle = this.pal.ring; c.lineWidth = 1.2; c.setLineDash([2, 10]); c.lineDashOffset = off * 0.6;
+        c.beginPath(); c.ellipse(0, 0, 228, 108, 0, 0, TWO); c.stroke(); c.setLineDash([]);
+        if (!reduced) { const a = t * 0.4; c.drawImage(this.glow('t', [123, 44, 191]), Math.cos(a) * 228 - 10, Math.sin(a) * 108 - 10, 20, 20); }
+        c.restore();
+
+        /* road tail */
+        c.strokeStyle = '#ff8a3d'; c.lineWidth = 36; c.stroke(P.tail);
+        c.strokeStyle = '#7a2bc0'; c.lineWidth = 30; c.stroke(P.tail);
+        c.strokeStyle = 'rgba(255,255,255,.9)'; c.lineWidth = 2; c.setLineDash([9, 9]); c.lineDashOffset = off; c.stroke(P.tail); c.setLineDash([]);
+
+        /* flight state; exhaust puffs are emitted at exact sub-frame times so the trail is evenly spaced */
+        const ps = reduced ? { x: 205, y: TOP, psi: 0, fl: 0.5, alpha: 1, emit: 0 } : this.pose(t);
+        if (!reduced) {
+          const gap = ps.emit === 1 ? 0.02 : ps.emit === 2 ? 0.016 : ps.emit === 3 ? 0.05 : 0;
+          if (gap) {
+            if (t - this.nextEmit > 0.25) this.nextEmit = t;
+            while (this.nextEmit <= t) {
+              const q = this.pose(this.nextEmit);
+              if (q.emit) this.hist.push({ x: q.x - Math.sin(q.psi) * 16, y: q.y + Math.cos(q.psi) * 16, t: this.nextEmit, life: q.emit === 1 ? 1.7 : 3.4, col: q.emit !== 1, seed: Math.random() * 6.28 });
+              this.nextEmit += gap;
+            }
+          } else this.nextEmit = t;
+          if (this.hist.length) this.hist = this.hist.filter(h => t - h.t < h.life);
+        }
+
+        /* smoke sits behind the road */
+        for (let k = 0; k < 6; k++) {
+          const a = (reduced ? 0 : t * 0.45) + k * 1.05;
+          this.puff(205 + Math.cos(a) * 12, 250 + Math.sin(a * 1.3) * 9, 30 + (k % 3) * 8, 0.3 + (k % 3) * 0.25, 0.5);
+        }
+        if (reduced) {
+          for (let i = 0; i < 40; i++) { const f = i / 39; this.puff(205 + Math.sin(i * 1.9) * (4 + f * 16), TOP + 40 + f * 190, 9 + f * 13, Math.min(1, f * 1.2), 0.8); }
+        }
+        let hi = 0;
+        for (const h of this.hist) {
+          hi++;
+          const a = (t - h.t) / h.life;
+          if (a < 0 || a >= 1) continue;
+          if (h.col) this.puff(h.x + Math.sin(t * 1.1 + h.seed) * a * 10, h.y + a * 40, 10 + a * 20, Math.min(1, 0.15 + a * 1.1), 0.9 * Math.pow(1 - a, 1.5));
+          else this.puff(h.x, h.y, 9 + a * 24, Math.min(1, a * 1.3), 0.85 * (1 - a) * (1 - a));
+          if (hi % 3 === 0 && a < 0.5) {
+            c.globalAlpha = base * (1 - a * 2);
+            c.drawImage(this.glow('s', [255, 150, 50]), h.x + Math.cos(h.seed) * a * 56 - 4, h.y + Math.sin(h.seed) * a * 56 + a * 20 - 4, 8, 8);
+          }
+        }
+        c.globalAlpha = base;
+
+        /* infinity road with a soft glow underlay; second half drawn over the first */
+        c.save(); c.translate(205, 250); c.rotate(-0.1);
+        const g = c.createLinearGradient(-A, 0, A, 0);
+        g.addColorStop(0, '#ff7a1f'); g.addColorStop(.42, '#f4812f'); g.addColorStop(.58, '#9d3fc4'); g.addColorStop(1, '#6b21a8');
+        c.strokeStyle = g; c.lineCap = 'round';
+        c.globalAlpha = base * (0.1 + (reduced ? 0 : 0.04 * Math.sin(t * 1.6))); c.lineWidth = 64; c.stroke(P.full);
+        c.globalAlpha = base * 0.12; c.lineWidth = 50; c.stroke(P.full);
+        c.globalAlpha = base;
+        const piece = p => {
+          c.strokeStyle = g; c.lineWidth = 32; c.lineCap = 'round'; c.stroke(p);
+          c.strokeStyle = 'rgba(255,255,255,.9)'; c.lineWidth = 2; c.setLineDash([9, 9]); c.lineDashOffset = off; c.stroke(p); c.setLineDash([]);
+        };
+        c.strokeStyle = OUT; c.lineWidth = 40; c.lineCap = 'round'; c.stroke(P.full);
+        piece(P.a);
+        c.strokeStyle = OUT; c.lineWidth = 40; c.lineCap = 'butt'; c.stroke(P.x);
+        piece(P.b);
+        /* light pulses running along the road */
+        if (!reduced) for (let k = 0; k < 4; k++) {
+          const q = this.lemni((t * 0.5 + k * TWO / 4) % TWO, A);
+          c.globalAlpha = base * 0.9; c.drawImage(this.glow('w', [255, 255, 255]), q[0] - 12, q[1] - 12, 24, 24);
+        }
+        c.restore();
+
+        /* rocket with a soft halo, on top of everything */
+        c.save(); c.globalAlpha = base * ps.alpha * this.pal.halo;
+        c.drawImage(this.glow('o', [255, 170, 90]), ps.x - 50, ps.y - 50, 100, 100);
+        c.globalAlpha = base * ps.alpha;
+        c.translate(ps.x, ps.y); c.rotate(ps.psi); c.scale(0.5, 0.5); c.translate(0, -43);
+        this.rocket(ps.fl);
+        c.restore();
+
+        c.restore();
+      }
+      draw(now) {
+        const c = this.ctx, W = this.W, H = this.H, t = (now - this.t0) / 1000;
+        const dt = Math.min(0.05, (now - (this.lastNow || now)) / 1000 || 0.016); this.lastNow = now;
+        const hr = this.hero.getBoundingClientRect(), sm = this.sm;
+        const on = this.ptr.on && !reduced, lx = this.ptr.cx - hr.left, ly = this.ptr.cy - hr.top;
+        if (on && sm.i < 0.02) { sm.x = lx; sm.y = ly; }
+        const k = 1 - Math.exp(-dt * 7);
+        if (on) { sm.x += (lx - sm.x) * k; sm.y += (ly - sm.y) * k; }
+        sm.i += ((on ? 1 : 0) - sm.i) * (1 - Math.exp(-dt * 5));
+        const nx = (sm.x / W - 0.5) * 2 * sm.i, ny = (sm.y / H - 0.5) * 2 * sm.i;
+
+        if (this.isDark() !== this.dark) { this.setPal(); this.buildBg(); }
+        c.globalAlpha = 1;
+        c.clearRect(0, 0, W, H);
+        if (this.bg) c.drawImage(this.bg, -nx * 6, -ny * 4, W, H);
+
+        /* twinkling stars */
+        c.fillStyle = this.pal.star;
+        for (const s of this.stars) { c.globalAlpha = reduced ? 0.4 : 0.2 + 0.3 * (0.5 + 0.5 * Math.sin(t * 1.4 + s.ph)); c.fillRect(s.x - nx * 4, s.y - ny * 3, s.r, s.r); }
+
+        /* particle field: drifts, gently pushed away from the cursor */
+        const D = W < 768 ? 80 : 120, D2 = D * D, pts = this.pts;
+        if (!reduced) for (const p of pts) {
+          if (sm.i > 0.02) {
+            const dx = p.x - sm.x, dy = p.y - sm.y, d2 = dx * dx + dy * dy;
+            if (d2 < 16900 && d2 > 1) { const d = Math.sqrt(d2), f = (1 - d / 130) * 260 * dt * sm.i; p.vx += dx / d * f; p.vy += dy / d * f; }
+          }
+          const e = Math.min(1, dt * 1.6); p.vx += (p.bx - p.vx) * e; p.vy += (p.by - p.vy) * e;
+          p.x += p.vx * dt; p.y += p.vy * dt;
+          if (p.x < -20) p.x = W + 20; else if (p.x > W + 20) p.x = -20;
+          if (p.y < -20) p.y = H + 20; else if (p.y > H + 20) p.y = -20;
+        }
+        c.strokeStyle = this.pal.link; c.lineWidth = 1;
+        for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y, d2 = dx * dx + dy * dy;
+          if (d2 < D2) { c.globalAlpha = (1 - Math.sqrt(d2) / D) * this.pal.linkA; c.beginPath(); c.moveTo(pts[i].x, pts[i].y); c.lineTo(pts[j].x, pts[j].y); c.stroke(); }
+        }
+        c.fillStyle = this.pal.pdot; c.globalAlpha = this.pal.pdotA;
+        for (const p of pts) c.fillRect(p.x - p.r / 2, p.y - p.r / 2, p.r, p.r);
+
+        /* cursor glow */
+        if (sm.i > 0.02) { c.globalAlpha = 0.28 * sm.i; c.drawImage(this.glow('c', [244, 122, 32]), sm.x - 130, sm.y - 130, 260, 260); }
+        c.globalAlpha = 1;
+
+        this.scene(t, nx, ny);
+      }
+      frame(now) {
+        if (!this.running) return;
+        this.raf = requestAnimationFrame(this.frame);
+        this.draw(now);
+      }
+      start() { if (reduced) return this.draw(this.t0 + 5000); if (this.running) return; this.running = true; this.lastNow = 0; this.raf = requestAnimationFrame(this.frame); }
+      pause() { this.running = false; if (this.raf) cancelAnimationFrame(this.raf); this.raf = null; }
+      setVisible(v) { if (this.visible === v) return; this.visible = v; v && !document.hidden ? this.start() : this.pause(); }
+    }
+
+    (function () {
+      /* Marquee: two identical halves, 35 px/s, GPU transform */
+      const ITEMS = ['Risk Assessment', 'Business Impact Analysis', 'Continuity Planning', 'Disaster Recovery', 'Crisis Management', 'Supply Chain Continuity', 'Cyber Resilience', 'Testing & Exercises', 'Faster Recovery', 'Adaptability'];
+      const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10v-6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>';
+      const seq = ITEMS.map(n => `<a href="#">${n}</a>${ICON}`).join('');
+      let lastW = 0, ready = false;
+      function buildMarquee(force) {
+        const box = document.getElementById('identity'), track = document.getElementById('ticker-track');
+        const w = box.clientWidth || innerWidth;
+        if (!force && ready && Math.abs(w - lastW) < 2) return;
+        lastW = w; track.innerHTML = '';
+        const g1 = document.createElement('div'); g1.className = 'ticker-group'; g1.innerHTML = seq; track.appendChild(g1);
+        const reps = Math.max(1, Math.ceil(w * 1.15 / (g1.getBoundingClientRect().width || 1)));
+        if (reps > 1) g1.innerHTML = seq.repeat(reps);
+        const g2 = g1.cloneNode(true); g2.setAttribute('aria-hidden', 'true');
+        g2.querySelectorAll('a').forEach(a => a.setAttribute('tabindex', '-1')); track.appendChild(g2);
+        const dist = g1.getBoundingClientRect().width;
+        track.style.setProperty('--dist', dist.toFixed(2) + 'px');
+        track.style.setProperty('--dur', (dist / 35).toFixed(2) + 's');
+        ready = true;
+      }
+      buildMarquee(true);
+
+      const hero = document.getElementById('hero');
+      const engine = new ResCanvas(document.getElementById('cv'), hero);
+      engine.resize(); engine.start();
+
+      /* pointer: record only, no work inside the handler */
+      hero.addEventListener('pointermove', e => { engine.ptr.cx = e.clientX; engine.ptr.cy = e.clientY; engine.ptr.on = true; }, { passive: true });
+      hero.addEventListener('pointerleave', () => { engine.ptr.on = false; }, { passive: true });
+      hero.addEventListener('pointercancel', () => { engine.ptr.on = false; }, { passive: true });
+
+      if (document.fonts?.ready) document.fonts.ready.then(() => { buildMarquee(true); engine.resize(); });
+
+      let rr = null;
+      const onResize = () => { cancelAnimationFrame(rr); rr = requestAnimationFrame(() => { engine.resize(); buildMarquee(false); }); };
+      if (window.ResizeObserver) new ResizeObserver(onResize).observe(hero); else addEventListener('resize', onResize, { passive: true });
+      addEventListener('orientationchange', onResize, { passive: true });
+
+      let lastVis = null;
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(es => {
+          const e = es[es.length - 1], v = e.isIntersecting && e.intersectionRatio > 0.05;
+          if (v === lastVis) return; lastVis = v;
+          engine.setVisible(v);
+        }, { threshold: [0, 0.05, 0.1] }).observe(hero);
+      }
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) engine.pause();
+        else if (engine.visible && !reduced) engine.start();
+      });
+    })();
+  </script>
+</body>
+
+</html>
